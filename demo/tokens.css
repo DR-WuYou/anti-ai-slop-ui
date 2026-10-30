@@ -1,0 +1,58 @@
+/* 去 AI 味 UI · 设计 token
+   复制到项目根部，只在这一个文件里改数值。
+   规则对应 SKILL.md 的 R1 / R4 / R5 / R6 / R9。 */
+
+:root {
+  /* 圆角：4 档，够用三年 */
+  --r-sm: 6px;      /* 输入框、标签、小按钮 */
+  --r-md: 10px;     /* 卡片、面板 */
+  --r-lg: 16px;     /* 大容器、弹层 */
+  --r-full: 999px;  /* 真圆 / 胶囊 */
+
+  /* 间距：4 的倍数，8 的节奏 */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-6: 24px; --s-8: 32px; --s-12: 48px; --s-16: 64px;
+
+  /* 字号：4 级阶梯，比例 1.25 */
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 20px;
+  --text-2xl: 32px;
+
+  /* 中性色：12 阶，冷灰偏蓝 2% */
+  --gray-0:  #ffffff;
+  --gray-1:  #fbfbfc;
+  --gray-2:  #f5f6f7;
+  --gray-3:  #eceef0;
+  --gray-4:  #e2e4e8;
+  --gray-5:  #d3d6db;
+  --gray-6:  #b9bec6;
+  --gray-7:  #8f959f;
+  --gray-8:  #6b717b;
+  --gray-9:  #4a4f57;
+  --gray-10: #2c3037;
+  --gray-11: #16181c;
+
+  /* 一个强调色 + 语义色 */
+  --accent: #3b5bdb;
+  --accent-hover: #2f4bc0;
+  --danger: #c92a2a;
+  --success: #2b8a3e;
+
+  /* 描边：永远是 1 物理像素 */
+  --hairline: inset 0 0 0 0.5px rgb(0 0 0 / 0.12);
+
+  /* 阴影：色相微偏，双层小扩散 */
+  --shadow-1: 0 1px 2px rgb(16 18 27 / 0.06), 0 1px 1px rgb(16 18 27 / 0.04);
+  --shadow-2: 0 4px 12px rgb(16 18 27 / 0.08), 0 1px 3px rgb(16 18 27 / 0.06);
+
+  /* 动效 */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 140ms;
+
+  /* 字体：西文在前，中文在后，兜底 */
+  --font-sans:
+    ui-sans-serif, -apple-system, "Segoe UI", "Helvetica Neue",
+    "PingFang SC", "HarmonyOS Sans SC", "Source Han Sans SC", "Noto Sans SC",
+    "Microsoft YaHei", sans-serif;
+}

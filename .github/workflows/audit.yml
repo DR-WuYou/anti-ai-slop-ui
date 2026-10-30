@@ -1,0 +1,23 @@
+name: audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Audit the good example
+        run: node scripts/audit.mjs demo/after.html --fail-under 92
+      - name: The bad example must stay bad (fixture guard)
+        run: |
+          set -e
+          score=$(node scripts/audit.mjs demo/before.html --json | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>console.log(JSON.parse(s).files[0].score))")
+          echo "before.html score: $score"
+          test "$score" -lt 60

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>拾句 · 对照示例（改造后）</title>
+<style>
+  /* 同样的内容，去掉默认值：4 档圆角、4 级字号、1 个强调色、8 级中性灰 */
+  :root {
+    --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-full: 999px;
+    --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-6: 24px; --s-8: 32px; --s-12: 48px; --s-16: 64px;
+    --gray-0: #ffffff; --gray-1: #fbfbfc; --gray-2: #f5f6f7;
+    --gray-4: #e2e4e8; --gray-8: #6b717b; --gray-10: #2c3037;
+    --accent: #3b5bdb; --accent-soft: #eef1fc;
+    --hairline: inset 0 0 0 0.5px rgb(0 0 0 / 0.12);
+    --ease-out: cubic-bezier(0.2, 0, 0, 1);
+    --font-sans:
+      ui-sans-serif, -apple-system, "Segoe UI", "Helvetica Neue",
+      "PingFang SC", "HarmonyOS Sans SC", "Source Han Sans SC", "Noto Sans SC",
+      "Microsoft YaHei", sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    background: var(--gray-1);
+    color: var(--gray-10);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1080px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 32px); }
+
+  /* 导航：只放真实路径，一个主操作 */
+  .nav { display: flex; align-items: center; gap: var(--s-6); padding-block: var(--s-4); }
+  .brand { font-weight: 600; letter-spacing: -0.01em; }
+  .nav nav { display: flex; gap: var(--s-6); margin-left: auto; }
+  .nav a { color: var(--gray-8); text-decoration: none; font-size: 14px; }
+  .nav a:hover { color: var(--gray-10); }
+
+  /* 按钮：一档圆角，三态齐全，只动 transform 与颜色 */
+  .btn {
+    font: inherit; font-size: 14px; font-weight: 500;
+    padding: 10px 18px; border: 0; border-radius: var(--r-sm);
+    cursor: pointer; transition: background-color 140ms var(--ease-out), transform 140ms var(--ease-out);
+  }
+  .btn-primary { background: var(--accent); color: var(--gray-0); }
+  .btn-primary:hover { background: #2f4bc0; }
+  .btn-primary:active { transform: translateY(0.5px); }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* 首屏：一个主张、一个动作，左对齐 */
+  .hero { padding-block: var(--s-16) var(--s-12); max-width: 720px; }
+  .kicker { margin: 0 0 var(--s-3); font-size: 14px; color: var(--gray-8); }
+  h1 {
+    margin: 0 0 var(--s-4);
+    font-size: 32px; line-height: 1.25; font-weight: 600;
+    letter-spacing: -0.01em; text-wrap: balance;
+  }
+  .lede { margin: 0 0 var(--s-6); color: var(--gray-8); max-width: 68ch; text-wrap: pretty; }
+  .actions { display: flex; align-items: center; gap: var(--s-4); }
+  .link { color: var(--accent); font-size: 14px; text-decoration: none; }
+  .link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* 指标：一个主角，其余降级成行内 */
+  .facts {
+    display: flex; flex-wrap: wrap; gap: var(--s-8);
+    padding-block: var(--s-6);
+    box-shadow: inset 0 0.5px 0 rgb(0 0 0 / 0.08), inset 0 -0.5px 0 rgb(0 0 0 / 0.08);
+  }
+  .fact { display: flex; align-items: baseline; gap: var(--s-2); }
+  .num { font-size: 32px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+  .num-main { color: var(--accent); }
+  .cap { font-size: 14px; color: var(--gray-8); }
+
+  /* 功能：不用卡片，用留白与 hairline 分组 */
+  .section { padding-block: var(--s-12); }
+  .section h2 { margin: 0 0 var(--s-6); font-size: 20px; font-weight: 600; }
+  .rows { display: grid; gap: 0; }
+  .row {
+    display: grid; grid-template-columns: 24px 1fr; gap: var(--s-3) var(--s-4);
+    padding-block: var(--s-4);
+    box-shadow: inset 0 -0.5px 0 rgb(0 0 0 / 0.08);
+  }
+  .row:first-child { box-shadow: inset 0 0.5px 0 rgb(0 0 0 / 0.08), inset 0 -0.5px 0 rgb(0 0 0 / 0.08); }
+  .row svg { margin-top: 3px; color: var(--gray-8); }
+  .row h3 { margin: 0; font-size: 16px; font-weight: 600; }
+  .row p { margin: 2px 0 0; color: var(--gray-8); max-width: 62ch; }
+
+  /* 圆角退让演示：外层 16，内边距 12，内层按钮 4 */
+  .nested {
+    margin-top: var(--s-6);
+    padding: 12px;
+    border-radius: var(--r-lg);
+    background: var(--gray-0);
+    box-shadow: var(--hairline);
+    display: flex; align-items: center; justify-content: space-between; gap: var(--s-4);
+  }
+  .nested .inner {
+    border: 0; cursor: pointer; font: inherit; font-size: 14px;
+    padding: 8px 14px;
+    border-radius: max(0px, calc(var(--r-lg) - 12px));
+    background: var(--accent-soft); color: var(--accent);
+  }
+  .nested .inner:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* 尾段：不堆链接 */
+  .end { padding-block: var(--s-12); }
+  .end h2 { margin: 0 0 var(--s-3); font-size: 20px; }
+  .end p { margin: 0 0 var(--s-6); color: var(--gray-8); }
+  footer { padding-block: var(--s-6); font-size: 14px; color: var(--gray-8); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="nav">
+      <span class="brand">拾句</span>
+      <nav>
+        <a href="#">产品</a>
+        <a href="#">价格</a>
+        <a href="#">文档</a>
+      </nav>
+      <button class="btn btn-primary">免费开始</button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="kicker">写作助手</p>
+        <h1>初稿写完，剩下的交给拾句</h1>
+        <p class="lede">它读你已有的段落，改语气、压长度、补上漏掉的信息。不用换工具，改完直接发。</p>
+        <div class="actions">
+          <button class="btn btn-primary">免费试用 14 天</button>
+          <a class="link" href="#">看一份改前改后</a>
+        </div>
+      </section>
+
+      <section class="facts">
+        <div class="fact"><span class="num num-main">10×</span><span class="cap">改稿速度</span></div>
+        <div class="fact"><span class="num">50,000</span><span class="cap">在用的人</span></div>
+        <div class="fact"><span class="num">99.9%</span><span class="cap">过去 12 个月可用性</span></div>
+      </section>
+
+      <section class="section">
+        <h2>它做三件事</h2>
+        <div class="rows">
+          <div class="row">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 8h9M8 4l4 4-4 4"/></svg>
+            <div>
+              <h3>把句子改短</h3>
+              <p>长句拆成两句，被动改主动，删掉形容词堆叠。改完字数通常少三成。</p>
+            </div>
+          </div>
+          <div class="row">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 2v12M2 8h12"/></svg>
+            <div>
+              <h3>补上缺的信息</h3>
+              <p>标出没有依据的说法，提示该补哪个数字、哪条来源，而不是替你编一个。</p>
+            </div>
+          </div>
+          <div class="row">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 13V6l5-3 5 3v7M6 13V9h4v4"/></svg>
+            <div>
+              <h3>跟着你的稿子走</h3>
+              <p>语气和用词从你过去的文档里学，不套模板腔。改一遍，它记住一版。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="nested">
+          <span>嵌套圆角：外层 16，内边距 12，内层 4</span>
+          <button class="inner">试试看</button>
+        </div>
+      </section>
+
+      <section class="end">
+        <h2>先改一段你正在写的东西</h2>
+        <p>不用注册，贴一段 300 字以内的文字就能看到差别。</p>
+        <button class="btn btn-primary">贴上我的一段</button>
+      </section>
+    </main>
+
+    <footer>拾句 · 2026</footer>
+  </div>
+</body>
+</html>
